@@ -7575,7 +7575,7 @@ static struct request *__blk_map_kern_sg(struct request_queue *q,
 			i, len, tot_len, l, offset);
 
 		if (((sg->offset | l) & queue_dma_alignment(q)) ||
-		    (page_addr && object_is_on_stack(page_addr + sg->offset))) {
+		    (page_addr && object_starts_on_stack(page_addr + sg->offset))) {
 			rq = ERR_PTR(-EINVAL);
 			goto out_free_bios;
 		}
