@@ -5521,7 +5521,7 @@ int scst_acn_sysfs_create(struct scst_acn *acn)
 {
 	int res = 0;
 	struct scst_acg *acg = acn->acg;
-	struct kobj_attribute *attr = NULL;
+	static kobj_attribute_no_const *attr = NULL;
 #ifdef CONFIG_DEBUG_LOCK_ALLOC
 	static struct lock_class_key __key;
 #endif
