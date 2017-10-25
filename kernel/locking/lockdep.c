@@ -3753,9 +3753,11 @@ void lock_acquire(struct lockdep_map *lock, unsigned int subclass,
 	if (unlikely(current->lockdep_recursion))
 		return;
 
+	if (unlikely(current->nolockdep_call))
+		return;
+
 	raw_local_irq_save(flags);
 	check_flags(flags);
-
 	current->lockdep_recursion = 1;
 	trace_lock_acquire(lock, subclass, trylock, read, check, nest_lock, ip);
 	__lock_acquire(lock, subclass, trylock, read, check,
@@ -3771,6 +3773,9 @@ void lock_release(struct lockdep_map *lock, int nested,
 	unsigned long flags;
 
 	if (unlikely(current->lockdep_recursion))
+		return;
+
+	if (unlikely(current->nolockdep_call))
 		return;
 
 	raw_local_irq_save(flags);
@@ -4021,6 +4026,9 @@ void lock_contended(struct lockdep_map *lock, unsigned long ip)
 	if (unlikely(current->lockdep_recursion))
 		return;
 
+	if (unlikely(current->nolockdep_call))
+		return;
+
 	raw_local_irq_save(flags);
 	check_flags(flags);
 	current->lockdep_recursion = 1;
@@ -4039,6 +4047,9 @@ void lock_acquired(struct lockdep_map *lock, unsigned long ip)
 		return;
 
 	if (unlikely(current->lockdep_recursion))
+		return;
+
+	if (unlikely(current->nolockdep_call))
 		return;
 
 	raw_local_irq_save(flags);
