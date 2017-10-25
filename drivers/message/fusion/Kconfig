@@ -120,4 +120,7 @@ config FUSION_LOGGING
 	  There are various debug levels that can be found in the source:
 	  file:drivers/message/fusion/mptdebug.h
 
+config FUSION_SCST
+	source "drivers/message/fusion/mpt_scst/Kconfig"
+
 endif # FUSION

@@ -8,6 +8,7 @@
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-} LSI_LOGIC
 
 obj-$(CONFIG_FUSION_SPI)	+= mptbase.o mptscsih.o mptspi.o
+obj-$(CONFIG_FUSION_SCST)	+= mpt_scst/
 obj-$(CONFIG_FUSION_FC)		+= mptbase.o mptscsih.o mptfc.o
 obj-$(CONFIG_FUSION_SAS)	+= mptbase.o mptscsih.o mptsas.o
 obj-$(CONFIG_FUSION_CTL)	+= mptctl.o

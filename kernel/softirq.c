@@ -335,6 +335,17 @@ asmlinkage __visible void do_softirq(void)
  */
 void irq_enter(void)
 {
+#ifdef CONFIG_LOCKDEP
+	if (unlikely(current->nolockdep_call)) {
+		unsigned long flags;
+		local_irq_save(flags);
+		if (current->nolockdep_call) {
+			current->nolockdep_call_irq_saved = 1;
+			current->nolockdep_call = 0;
+		}
+		local_irq_restore(flags);
+	}
+#endif
 	rcu_irq_enter();
 	if (is_idle_task(current) && !in_interrupt()) {
 		/*
@@ -406,6 +417,17 @@ void irq_exit(void)
 
 	tick_irq_exit();
 	rcu_irq_exit();
+#ifdef CONFIG_LOCKDEP
+	if (unlikely(current->nolockdep_call_irq_saved)) {
+		unsigned long flags;
+		local_irq_save(flags);
+		if (current->nolockdep_call_irq_saved) {
+			current->nolockdep_call_irq_saved = 0;
+			current->nolockdep_call = 1;
+		}
+		local_irq_restore(flags);
+	}
+#endif
 	trace_hardirq_exit(); /* must be last! */
 }
 
