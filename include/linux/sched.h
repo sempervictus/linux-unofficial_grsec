@@ -1796,6 +1796,9 @@ struct task_struct {
 # define MAX_LOCK_DEPTH 48UL
 	u64 curr_chain_key;
 	int lockdep_depth;
+# define NOLOCKDEP_SUPPORTED 1
+	unsigned int nolockdep_call:1;
+	unsigned int nolockdep_call_irq_saved:1;
 	unsigned int lockdep_recursion;
 	struct held_lock held_locks[MAX_LOCK_DEPTH];
 	gfp_t lockdep_reclaim_gfp;

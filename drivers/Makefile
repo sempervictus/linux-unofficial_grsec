@@ -143,6 +143,7 @@ obj-$(CONFIG_BCMA)		+= bcma/
 obj-$(CONFIG_VHOST_RING)	+= vhost/
 obj-$(CONFIG_VHOST)		+= vhost/
 obj-$(CONFIG_VLYNQ)		+= vlynq/
+obj-$(CONFIG_SCST)		+= scst/
 obj-$(CONFIG_STAGING)		+= staging/
 obj-y				+= platform/
 
