@@ -4278,7 +4278,9 @@ static int __init iscsi_init(void)
 	if (err < 0)
 		goto out_kmem;
 
-	iscsi_conn_ktype.sysfs_ops = scst_sysfs_get_sysfs_ops();
+	pax_open_kernel();
+	const_cast(iscsi_conn_ktype.sysfs_ops) = scst_sysfs_get_sysfs_ops();
+	pax_close_kernel();
 
 	err = iscsi_threads_pool_get(NULL, &iscsi_main_thread_pool);
 	if (err != 0)
